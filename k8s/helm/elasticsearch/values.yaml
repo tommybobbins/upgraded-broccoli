@@ -1,0 +1,52 @@
+nameOverride: "elastic-${deployment}"
+managedNamespaces: ["elastic-${deployment}"]
+
+createClusterScopedResources: false
+
+config:
+  # no RBAC access to cluster-wide storage classes, hence disable storage class validation
+  validateStorageClass: false
+
+podTemplate:
+
+
+installCRDs: false
+
+webhook:
+  enabled: false
+
+nodeSets:
+  - name: default
+    count: 1
+    config:
+    podTemplate:
+      spec:
+        containers:
+          - name: elasticsearch
+            volumeMounts:
+              - name: elasticsearch-data-prod
+                mountPath: /usr/share/production/elasticsearch/data
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+          # storageClassName: regionalpd-storageclass
+          storageClassName: standard
+
+# podSecurityContext defines the pod security context for the operator pod.
+podSecurityContext:
+  runAsNonRoot: true
+
+# securityContext defines the security context of the operator container.
+# securityContext:
+#   allowPrivilegeEscalation: false
+#   capabilities:
+#     drop:
+#       - ALL
+#   readOnlyRootFilesystem: true
+#   runAsNonRoot: true
