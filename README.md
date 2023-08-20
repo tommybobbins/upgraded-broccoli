@@ -78,9 +78,10 @@ region           = "europe-west2"
 
 ## Build the infrastructure
 
-
+```
 $ cd infrastructure
 $ terraform init; terraform plan; terraform apply
+```
 
 ## Find the GKE cluster credentials
 
@@ -88,7 +89,6 @@ $ terraform init; terraform plan; terraform apply
 ```
 $ gcloud container clusters get-credentials bobbins-gke --region europe-west2 
 $ export KUBE_CONFIG_FILE=~/.kube/config
-$ terraform apply
 ``` 
 
 ## Deploy the ECK stack in kubernetes
@@ -111,7 +111,7 @@ If the pod is already running:
 $ kubectl attach curly -c curly -i -t
 ``` 
 
-Test connection to the service:
+Test connection to the service from within the pod:
 ```
 ~ $ curl -I https://test-es-http.es-test:9200 -k
 HTTP/1.1 401 Unauthorized
@@ -136,7 +136,8 @@ $ podman push europe-west2-docker.pkg.dev/bobbins-mcbobbinsface-123456/benchmark
 
 ## Running esrally
 
-Find the secret associated with the Elasticsearch ECK build
+Find the secret associated with the Elasticsearch ECK build:
+
 ```
 $ kubectl get secrets/test-es-elastic-user  -n es-test -o yaml
 apiVersion: v1
@@ -166,7 +167,7 @@ $ echo "ZDdNZ0ptZjY1Qjg4OTFqdUE2eDk2c3hS" | base64 -d
 d7MgJmf65B8891juA6x96sxR
 ```
 
-Test using the secret via curl
+## Test using the secret via curl
 
 ```
 $ kubectl attach curly -c curly -i -t
@@ -190,7 +191,7 @@ $ kubectl attach curly -c curly -i -t
 }
 ```
 
-Run esrally
+## Run esrally
 ```
 kubectl run esrally --image=europe-west2-docker.pkg.dev/<project>/benchmarking/esrally:0.1 -i --tty -- sh
 If you don't see a command prompt, try pressing enter.
