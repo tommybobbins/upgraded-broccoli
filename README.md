@@ -134,6 +134,13 @@ $ podman push europe-west2-docker.pkg.dev/bobbins-mcbobbinsface-123456/benchmark
 
 ```
 
+### Alternative - logging in directly using docker/podman
+
+```
+echo ${BASE64_ENCODED_SERVICE_ACCOUNT_KEY} | docker login -u _json_key_base64 --password-stdin https://europe-west2-docker.pkg.dev
+echo ${BASE64_ENCODED_SERVICE_ACCOUNT_KEY} | podman login -u _json_key_base64 --password-stdin https://europe-west2-docker.pkg.dev 
+```
+
 ## Running esrally
 
 Find the secret associated with the Elasticsearch ECK build:
