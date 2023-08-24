@@ -3,8 +3,10 @@
 ## Build the esrally image
 
 ```
- gcloud auth print-access-token --quiet | podman login -u oauth2accesstoken --password-stdin https://europe-west2-docker.pkg.dev
+ gcloud auth print-access-token --quiet | podman login -u oauth2accesstoken --password-stdin europe-west2-docker.pkg.dev
  podman build -t europe-west2-docker.pkg.dev/<project>/benchmarking/esrally:0.1 .
+# Or if running from non-intel hw
+ podman build --arch x86_64 -t europe-west2-docker.pkg.dev/zeta-main-gcp/zeta/esrally:0.1 .
  podman push europe-west2-docker.pkg.dev/<project>/benchmarking/esrally:0.1
 ```
 
